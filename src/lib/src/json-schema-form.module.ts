@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControlDirective } from '@angular/forms';
 
 import { FrameworkLibraryService } from './framework-library/framework-library.service';
 import { WidgetLibraryModule } from './widget-library/widget-library.module';
@@ -14,7 +14,15 @@ import { NoFrameworkComponent } from './framework-library/no-framework/no-framew
 import { Framework } from './framework-library/framework';
 import { NoFramework } from './framework-library/no-framework/no.framework';
 import { NoFrameworkModule } from './framework-library/no-framework/no-framework.module';
+import { FormBehaviourActionService } from './shared/form-behaviour-action.service';
 
+
+const originFormControlNgOnChanges = FormControlDirective.prototype.ngOnChanges;
+FormControlDirective.prototype.ngOnChanges = function () {
+  let elem = this.valueAccessor._elementRef || this.valueAccessor.elem;
+  this.form.nativeElement = elem.nativeElement;
+  return originFormControlNgOnChanges.apply(this, arguments);
+};
 @NgModule({
   imports: [
     CommonModule, FormsModule, ReactiveFormsModule,
@@ -31,7 +39,7 @@ export class JsonSchemaFormModule {
     return {
       ngModule: JsonSchemaFormModule,
       providers: [
-        JsonSchemaFormService, FrameworkLibraryService, WidgetLibraryService,
+        JsonSchemaFormService, FrameworkLibraryService, WidgetLibraryService, FormBehaviourActionService,
         ...loadFrameworks
       ]
     };

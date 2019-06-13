@@ -32,6 +32,7 @@ export { OrderableDirective } from './src/shared/orderable.directive';
 
 export { JsonSchemaFormComponent } from './src/json-schema-form.component';
 export { JsonSchemaFormService } from './src/json-schema-form.service';
+export { FormBehaviourActionService } from './src/shared/form-behaviour-action.service';
 export { JsonSchemaFormModule } from './src/json-schema-form.module';
 
 export { WidgetLibraryService } from './src/widget-library/widget-library.service';

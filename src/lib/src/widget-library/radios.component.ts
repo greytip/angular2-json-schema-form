@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 import { JsonSchemaFormService } from '../json-schema-form.service';
-import { buildTitleMap } from '../shared';
+import { buildTitleMap, isArray } from '../shared';
+import { FormBehaviourActionService } from '../shared/form-behaviour-action.service';
 
 @Component({
   selector: 'radios-widget',
@@ -28,7 +29,6 @@ import { buildTitleMap } from '../shared';
           [attr.required]="options?.required"
           [checked]="radioItem?.value === controlValue"
           [class]="options?.fieldHtmlClass || ''"
-          [disabled]="controlDisabled"
           [id]="'control' + layoutNode?._id + '/' + radioItem?.value"
           [name]="controlName"
           [value]="radioItem?.value"
@@ -53,7 +53,6 @@ import { buildTitleMap } from '../shared';
             [attr.required]="options?.required"
             [checked]="radioItem?.value === controlValue"
             [class]="options?.fieldHtmlClass || ''"
-            [disabled]="controlDisabled"
             [id]="'control' + layoutNode?._id + '/' + radioItem?.value"
             [name]="controlName"
             [value]="radioItem?.value"
@@ -63,7 +62,7 @@ import { buildTitleMap } from '../shared';
       </div>
     </div>`,
 })
-export class RadiosComponent implements OnInit {
+export class RadiosComponent implements OnInit, AfterViewInit {
   formControl: AbstractControl;
   controlName: string;
   controlValue: any;
@@ -76,7 +75,9 @@ export class RadiosComponent implements OnInit {
   @Input() dataIndex: number[];
 
   constructor(
-    private jsf: JsonSchemaFormService
+    private jsf: JsonSchemaFormService,
+    private formBehaviourActionService: FormBehaviourActionService
+
   ) { }
 
   ngOnInit() {
@@ -93,11 +94,35 @@ export class RadiosComponent implements OnInit {
     this.jsf.initializeControl(this);
   }
 
-  get controlDisabled(): boolean {
-    return this.jsf.evaluateDisabled(this.layoutNode, this.dataIndex);
+  ngAfterViewInit() {
+    if (this.isformBehaviourAction) {
+      setTimeout(() => {
+        this.formBehaviourActionService.initActions(
+          this.options.formBehaviourActions,
+          this.controlValue,
+          this.jsf.formGroup
+        );
+      });
+    }
   }
-
   updateValue(event) {
     this.jsf.updateValue(this, event.target.value);
+    this.handleChange(event);
+  }
+  get isformBehaviourAction() {
+    return (
+      this.jsf.formOptions.activateFormBehaviourActions &&
+      isArray(this.options.formBehaviourActions) &&
+      this.options.formBehaviourActions.length > 0
+    );
+  }
+  handleChange($event) {
+    if (this.isformBehaviourAction) {
+      this.formBehaviourActionService.initActions(
+        this.options.formBehaviourActions,
+        $event.target.value,
+        this.jsf.formGroup
+      );
+    }
   }
 }

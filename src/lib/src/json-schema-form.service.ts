@@ -74,6 +74,8 @@ export class JsonSchemaFormService {
 
   language = 'en-US'; // Does the form include a recursive reference to itself?
 
+  isAddComponent = true; // Does add reference component should present or not?
+
   // Default global form options
   defaultFormOptions: any = {
     addSubmit: 'auto', // Add a submit button if layout does not have one?
@@ -220,7 +222,7 @@ export class JsonSchemaFormService {
       newValue, this.dataMap, this.dataRecursiveRefMap,
       this.arrayMap, this.formOptions.returnEmptyFields
     );
-    this.isValid = this.validateFormData(this.data);
+    this.isValid = this.validateFormData(this.data) && this.formGroup.valid;
     this.validData = this.isValid ? this.data : null;
     const compileErrors = errors => {
       const compiledErrors = {};
@@ -712,5 +714,17 @@ export class JsonSchemaFormService {
       }
       return result;
     }
+  }
+  evaluateFunctionBody(fn, val){
+    let result;
+    try {
+      const dynFn = new Function(
+        'val', fn
+      );
+      result = dynFn(val);
+    } catch (e) {
+      console.error("condition functionBody errored out on evaluation: " + fn);
+    }
+    return result;
   }
 }

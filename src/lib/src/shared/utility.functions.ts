@@ -310,3 +310,22 @@ export function toTitleCase(input: string, forceWords?: string|string[]): string
     }
   });
 };
+export function getFormControl(hash, fg) {
+  let results = [];
+  let result;
+  let keyArr = hash.split('.');
+  let key = keyArr.shift();
+  if (isArray(fg.controls)) {
+    fg.controls.forEach((control) => {
+      result = getFormControl(hash, control);
+      results = [...results, ...result];
+    })
+  } else {
+    if (keyArr.length < 1) {
+      return [fg.controls[key]];
+    }
+    result = getFormControl(keyArr.join('.'), fg.controls[key]);
+    results = [...results, ...result];
+  }
+  return [...results];
+}

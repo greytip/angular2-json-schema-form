@@ -34,8 +34,8 @@ export class AddReferenceComponent implements OnInit {
   }
 
   get showAddButton(): boolean {
-    return !this.layoutNode.arrayItem ||
-      this.layoutIndex[this.layoutIndex.length - 1] < this.options.maxItems;
+    return (!this.layoutNode.arrayItem ||
+      this.layoutIndex[this.layoutIndex.length - 1] < this.options.maxItems) && this.jsf.isAddComponent;
   }
 
   addItem(event) {

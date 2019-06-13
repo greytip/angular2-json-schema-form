@@ -1,15 +1,13 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/distinctUntilChanged';
-import * as _ from 'lodash';
-
+import { Component, Input, OnInit, OnDestroy, ElementRef, AfterViewInit } from '@angular/core';
+import { AbstractControl, Validators } from '@angular/forms';
 import { JsonSchemaFormService } from '../json-schema-form.service';
+import { FormBehaviourActionService } from '../shared/form-behaviour-action.service';
+import { isArray } from '../shared';
 
 @Component({
   selector: 'input-widget',
   template: `
-    <div [class]="options?.htmlClass || ''">
+    <div [class]="options?.htmlClass || ''" >
       <label *ngIf="options?.title"
         [attr.for]="'control' + layoutNode?._id"
         [class]="options?.labelHtmlClass || ''"
@@ -23,10 +21,10 @@ import { JsonSchemaFormService } from '../json-schema-form.service';
         [attr.minlength]="options?.minLength"
         [attr.pattern]="options?.pattern"
         [attr.placeholder]="options?.placeholder"
-        [attr.required]="options?.required"
         [class]="options?.fieldHtmlClass || ''"
         [id]="'control' + layoutNode?._id"
         [name]="controlName"
+        (change)="handleChange($event)"
         [readonly]="options?.readonly ? 'readonly' : null"
         [type]="layoutNode?.type">
       <input *ngIf="!boundControl"
@@ -36,9 +34,7 @@ import { JsonSchemaFormService } from '../json-schema-form.service';
         [attr.minlength]="options?.minLength"
         [attr.pattern]="options?.pattern"
         [attr.placeholder]="options?.placeholder"
-        [attr.required]="options?.required"
         [class]="options?.fieldHtmlClass || ''"
-        [disabled]="controlDisabled"
         [id]="'control' + layoutNode?._id"
         [name]="controlName"
         [readonly]="options?.readonly ? 'readonly' : null"
@@ -51,50 +47,55 @@ import { JsonSchemaFormService } from '../json-schema-form.service';
         </datalist>
     </div>`,
 })
-export class InputComponent implements OnInit, OnDestroy {
+export class InputComponent implements OnInit, AfterViewInit {
   formControl: AbstractControl;
   controlName: string;
   controlValue: string;
   boundControl = false;
   options: any;
-  autoCompleteList: string[] = [];
   @Input() layoutNode: any;
   @Input() layoutIndex: number[];
   @Input() dataIndex: number[];
 
-  private dataChanges$: Subscription;
 
   constructor(
-    private jsf: JsonSchemaFormService
+    private jsf: JsonSchemaFormService,
+    private formBehaviourActionService: FormBehaviourActionService
   ) { }
 
   ngOnInit() {
     this.options = this.layoutNode.options || {};
     this.jsf.initializeControl(this);
-
-    this.dataChanges$ =
-      this.jsf.dataChanges.distinctUntilChanged((current, prev) => _.isEqual(current, prev))
-        .subscribe((values) => { this.updateDisabled(); });
-
-    // Ugly hack to disable field after rendering.
-    // TODO: Try to do this is in buildFormGroupTemplate.
-    setTimeout(() => { this.updateDisabled(); });
   }
-
-  ngOnDestroy() {
-    this.dataChanges$.unsubscribe();
+  ngAfterViewInit() {
+    if (this.isformBehaviourAction) {
+      setTimeout(() => {
+        this.formBehaviourActionService.initActions(
+          this.options.formBehaviourActions,
+          this.controlValue,
+          this.jsf.formGroup
+        );
+      });
+    }
   }
-
-  get controlDisabled(): boolean {
-    return this.jsf.evaluateDisabled(this.layoutNode, this.dataIndex);
-  }
-
   updateValue(event) {
     this.jsf.updateValue(this, event.target.value);
+    this.handleChange(event);
   }
-
-  updateDisabled() {
-    if (this.controlDisabled) { this.formControl.disable(); }
-    else { this.formControl.enable(); }
+  get isformBehaviourAction() {
+    return (
+      this.jsf.formOptions.activateFormBehaviourActions &&
+      isArray(this.options.formBehaviourActions) &&
+      this.options.formBehaviourActions.length > 0
+    );
+  }
+  handleChange($event) {
+    if (this.isformBehaviourAction) {
+      this.formBehaviourActionService.initActions(
+        this.options.formBehaviourActions,
+        $event.target.value,
+        this.jsf.formGroup
+      );
+    }
   }
 }

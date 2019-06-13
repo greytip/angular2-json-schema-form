@@ -591,3 +591,7 @@ export function inArray(item, array, allIn = false) {
 export function xor(value1, value2) {
   return (!!value1 && !value2) || (!value1 && !!value2);
 }
+
+export function capitalCase(string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
