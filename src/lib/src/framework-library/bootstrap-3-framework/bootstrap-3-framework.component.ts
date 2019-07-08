@@ -116,11 +116,13 @@ export class Bootstrap3FrameworkComponent implements OnInit, OnChanges {
     if (this.layoutNode.recursiveReference) { return true; }
     if (!this.layoutNode.arrayItem || !this.parentArray) { return false; }
     // If array length <= minItems, don't allow removing any items
-    return this.parentArray.items.length - 1 <= this.parentArray.options.minItems ? false :
+    return this.parentArray.items.length - 1 <= (this.parentArray.options.minItems
+      + (this.jsf.formOptions.activateConditionallyRequired ? 1 : 0)) ? false :
       // For removable list items, allow removing any item
       this.layoutNode.arrayItemType === 'list' ? true :
-      // For removable tuple items, only allow removing last item in list
-      this.layoutIndex[this.layoutIndex.length - 1] === this.parentArray.items.length - 2;
+        // For removable tuple items, only allow removing last item in list
+        this.layoutIndex[this.layoutIndex.length - 1] === this.parentArray.items.length - 2;
+
   }
 
   ngOnInit() {

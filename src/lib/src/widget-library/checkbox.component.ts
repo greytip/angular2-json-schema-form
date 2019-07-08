@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { JsonSchemaFormService } from '../json-schema-form.service';
 import { FormBehaviourActionService } from '../shared/form-behaviour-action.service';
 import { isArray } from '../shared';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'checkbox-widget',
@@ -27,7 +28,7 @@ import { isArray } from '../shared';
         [id]="'control' + layoutNode?._id"
         [name]="controlName"
         [readonly]="options?.readonly ? 'readonly' : null"
-        (change)="handleChange($event)"
+        (change)="handleChange($event.target.checked)"
         type="checkbox"
       />
       <input
@@ -59,7 +60,7 @@ import { isArray } from '../shared';
     </label>
   `
 })
-export class CheckboxComponent implements OnInit, AfterViewInit {
+export class CheckboxComponent implements OnInit, OnDestroy, AfterViewInit {
   formControl: AbstractControl;
   controlName: string;
   controlValue: any;
@@ -70,6 +71,7 @@ export class CheckboxComponent implements OnInit, AfterViewInit {
   @Input() layoutNode: any;
   @Input() layoutIndex: number[];
   @Input() dataIndex: number[];
+  newItemsAddedSubscriber: Subscription;
 
   constructor(
     private jsf: JsonSchemaFormService,
@@ -82,6 +84,14 @@ export class CheckboxComponent implements OnInit, AfterViewInit {
     if (this.controlValue === null || this.controlValue === undefined) {
       this.controlValue = this.options.title;
     }
+   this.newItemsAddedSubscriber = this.jsf.newItemsAdded.subscribe((val) => {
+     setTimeout(() => {
+      this.handleChange(this.isChecked);
+     })
+    })
+  }
+  ngOnDestroy() {
+    this.newItemsAddedSubscriber.unsubscribe();
   }
   updateValue(event) {
     event.preventDefault();
@@ -89,7 +99,7 @@ export class CheckboxComponent implements OnInit, AfterViewInit {
       this,
       event.target.checked ? this.trueValue : this.falseValue
     );
-    this.handleChange(event);
+    this.handleChange(event.target.checked);
   }
   ngAfterViewInit() {
     if (this.isformBehaviourAction) {
@@ -97,7 +107,8 @@ export class CheckboxComponent implements OnInit, AfterViewInit {
         this.formBehaviourActionService.initActions(
           this.options.formBehaviourActions,
           this.isChecked,
-          this.jsf.formGroup
+          this.jsf.formGroup,
+          this.jsf.formOptions.activateConditionallyRequired
         );
       });
     }
@@ -107,17 +118,17 @@ export class CheckboxComponent implements OnInit, AfterViewInit {
   }
   get isformBehaviourAction() {
     return (
-      this.jsf.formOptions.activateFormBehaviourActions &&
       isArray(this.options.formBehaviourActions) &&
       this.options.formBehaviourActions.length > 0
     );
   }
-  handleChange($event) {
+  handleChange(val) {
     if (this.isformBehaviourAction) {
       this.formBehaviourActionService.initActions(
         this.options.formBehaviourActions,
-        $event.target.checked,
-        this.jsf.formGroup
+        val,
+        this.jsf.formGroup,
+        this.jsf.formOptions.activateConditionallyRequired
       );
     }
   }
