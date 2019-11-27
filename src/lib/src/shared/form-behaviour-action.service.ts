@@ -7,15 +7,17 @@ import { capitalCase } from './validator.functions';
 
 @Injectable()
 export class FormBehaviourActionService {
-  constructor(private jsf: JsonSchemaFormService) {}
-  initActions(formBehaviourActions, val, fg) {
+  constructor(private jsf: JsonSchemaFormService) { }
+  initActions(formBehaviourActions, val, fg, activateConditionallyRequired) {
     formBehaviourActions.forEach(action => {
-      this.handleBehaviourChange(action, val, fg);
+      this.handleBehaviourChange(action, val, fg, activateConditionallyRequired);
     });
   }
-  private handleBehaviourChange(action, val, fg) {
+  private handleBehaviourChange(action, val, fg, activateConditionallyRequired) {
     let targetFormControls = getFormControl(action.key, fg);
-    action.types.forEach(actionTypes => {
+    action.types.filter((actionTypes) => {
+      return activateConditionallyRequired || actionTypes !== 'optional';
+    }).forEach(actionTypes => {
       this['handle' + capitalCase(actionTypes)](
         targetFormControls,
         action.condition,
@@ -30,7 +32,7 @@ export class FormBehaviourActionService {
       formControls.forEach(formControl => formControl.enable());
     }
   }
-  private handleRequired(formControls, condition, val): void {
+  private handleOptional(formControls, condition, val): void {
     if (!this.jsf.evaluateFunctionBody(condition, val)) {
       formControls.forEach(formControl => {
         formControl.setValidators([Validators.required]);
@@ -50,7 +52,7 @@ export class FormBehaviourActionService {
     }
   }
 
-  private handleValue(formControls, condition, val): void {
+  private handleHidevalue(formControls, condition, val): void {
     if (this.jsf.evaluateFunctionBody(condition, val)) {
       formControls.forEach(formControl => formControl.setValue(''));
     };

@@ -100,7 +100,8 @@ export class RadiosComponent implements OnInit, AfterViewInit {
         this.formBehaviourActionService.initActions(
           this.options.formBehaviourActions,
           this.controlValue,
-          this.jsf.formGroup
+          this.jsf.formGroup,
+          this.jsf.formOptions.activateConditionallyRequired
         );
       });
     }
@@ -111,7 +112,6 @@ export class RadiosComponent implements OnInit, AfterViewInit {
   }
   get isformBehaviourAction() {
     return (
-      this.jsf.formOptions.activateFormBehaviourActions &&
       isArray(this.options.formBehaviourActions) &&
       this.options.formBehaviourActions.length > 0
     );
@@ -121,7 +121,8 @@ export class RadiosComponent implements OnInit, AfterViewInit {
       this.formBehaviourActionService.initActions(
         this.options.formBehaviourActions,
         $event.target.value,
-        this.jsf.formGroup
+        this.jsf.formGroup,
+        this.jsf.formOptions.activateConditionallyRequired
       );
     }
   }

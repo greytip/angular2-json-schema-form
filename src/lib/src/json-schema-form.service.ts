@@ -76,6 +76,8 @@ export class JsonSchemaFormService {
 
   isAddComponent = true; // Does add reference component should present or not?
 
+  newItemsAdded: Subject<any> = new Subject();
+
   // Default global form options
   defaultFormOptions: any = {
     addSubmit: 'auto', // Add a submit button if layout does not have one?
@@ -623,7 +625,7 @@ export class JsonSchemaFormService {
 
     // Add the new layoutNode to the form layout
     JsonPointer.insert(this.layout, this.getLayoutPointer(ctx), newLayoutNode);
-
+    this.newItemsAdded.next(true);
     return true;
   }
 
