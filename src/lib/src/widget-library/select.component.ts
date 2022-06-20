@@ -93,7 +93,8 @@ export class SelectComponent implements OnInit, AfterViewInit {
         this.formBehaviourActionService.initActions(
           this.options.formBehaviourActions,
           this.controlValue,
-          this.jsf.formGroup
+          this.jsf.formGroup,
+          this.jsf.formOptions.activateConditionallyRequired
         );
       });
     }
@@ -105,7 +106,6 @@ export class SelectComponent implements OnInit, AfterViewInit {
   }
   get isformBehaviourAction() {
     return (
-      this.jsf.formOptions.activateFormBehaviourActions &&
       isArray(this.options.formBehaviourActions) &&
       this.options.formBehaviourActions.length > 0
     );
@@ -115,7 +115,8 @@ export class SelectComponent implements OnInit, AfterViewInit {
       this.formBehaviourActionService.initActions(
         this.options.formBehaviourActions,
         JSON.parse($event.target.value.split(':')[1].trim()),
-        this.jsf.formGroup
+        this.jsf.formGroup,
+        this.jsf.formOptions.activateConditionallyRequired
       );
     }
   }
