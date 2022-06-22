@@ -3,7 +3,7 @@ import { AbstractControl } from '@angular/forms';
 import { JsonSchemaFormService } from '../json-schema-form.service';
 import { FormBehaviourActionService } from '../shared/form-behaviour-action.service';
 import { isArray } from '../shared';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'checkbox-widget',

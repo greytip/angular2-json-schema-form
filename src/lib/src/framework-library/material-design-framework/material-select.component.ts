@@ -1,7 +1,9 @@
+
+import {distinctUntilChanged} from 'rxjs/operators';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/distinctUntilChanged';
+import { Subscription } from 'rxjs';
+
 import * as _ from 'lodash';
 
 import { JsonSchemaFormService } from '../../json-schema-form.service';
@@ -12,7 +14,7 @@ import { buildTitleMap, isArray } from '../../shared';
   template: `
     <mat-form-field
       [class]="options?.htmlClass || ''"
-      [floatPlaceholder]="options?.floatPlaceholder || (options?.notitle ? 'never' : 'auto')"
+      [floatLabel]="options?.floatPlaceholder || (options?.notitle ? 'never' : 'auto')"
       [style.width]="'100%'">
       <span matPrefix *ngIf="options?.prefix || options?.fieldAddonLeft"
         [innerHTML]="options?.prefix || options?.fieldAddonLeft"></span>
@@ -51,7 +53,7 @@ import { buildTitleMap, isArray } from '../../shared';
         [style.width]="'100%'"
         [value]="controlValue"
         (blur)="options.showErrors = true"
-        (change)="updateValue($event)">
+        (selectionChange)="updateValue($event)">
         <ng-template ngFor let-selectItem [ngForOf]="selectList">
           <mat-option *ngIf="!isArray(selectItem?.items)"
             [attr.selected]="selectItem?.value === controlValue"
@@ -111,7 +113,7 @@ export class MaterialSelectComponent implements OnInit, OnDestroy {
     }
 
     this.dataChanges$ =
-      this.jsf.dataChanges.distinctUntilChanged((current, prev) => _.isEqual(current, prev))
+      this.jsf.dataChanges.pipe(distinctUntilChanged((current, prev) => _.isEqual(current, prev)))
         .subscribe((values) => { this.updateDisabled(); });
 
     // Ugly hack to disable field after rendering.
