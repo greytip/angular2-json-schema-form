@@ -539,7 +539,7 @@ export function isObservable(object): object is Observable<any> {
  * @return { Promise<any> }
  */
 export function _toPromise(object): Promise<any> {
-  return isPromise(object) ? object : toPromise.call(object);
+  return isPromise(object) ? object : _toPromise.call(object);
 }
 
 /**

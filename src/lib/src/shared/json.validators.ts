@@ -12,6 +12,7 @@ import {
 } from './validator.functions';
 import { forEachCopy } from './utility.functions';
 import { jsonSchemaFormatTests, JsonSchemaFormatNames } from './format-regex.constants';
+import { map } from 'rxjs/internal/operators/map';
 
 /**
  * 'JsonValidators' class
