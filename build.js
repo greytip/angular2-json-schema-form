@@ -15,6 +15,8 @@ const nodeResolve = require('rollup-plugin-node-resolve-angular');
 const commonjs = require('rollup-plugin-commonjs');
 const inlineResources = require('./inline-resources');
 const libName = require('./package.json').name;
+var ngFsUtils = require('@angular/compiler-cli/src/ngtsc/file_system');
+ngFsUtils.setFileSystem(new ngFsUtils.NodeJSFileSystem());
 const rootFolder = path.join(__dirname);
 const compilationFolder = path.join(rootFolder, 'out-ngc');
 const srcFolder = path.join(rootFolder, 'src/lib');
@@ -191,6 +193,7 @@ function _copyPackageJson(from, to) {
   return new Promise((resolve, reject) => {
     const origin = path.join(from, 'package.json');
     const destination = path.join(to, 'package.json');
+    console.log(origin, destination);
     let data = JSON.parse(fs.readFileSync(origin, 'utf-8'));
     delete data.engines;
     delete data.scripts;
