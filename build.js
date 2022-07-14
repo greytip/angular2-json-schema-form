@@ -25,12 +25,51 @@ const tempLibFolder = path.join(compilationFolder, 'lib');
 const es5OutputFolder = path.join(compilationFolder, 'lib-es5');
 const es2015OutputFolder = path.join(compilationFolder, 'lib-es2015');
 
+// Copy files, maintaining relative paths.
+function _relativeCopy(fileGlob, from, to, da) {
+  return new Promise((resolve, reject) => {
+    glob(fileGlob, { cwd: from, nodir: true }, (err, files) => {
+      if (err) reject(err);
+      files.forEach(file => {
+        const origin = path.join(from, file);
+        const destination = path.join(to, file);
+        const data = fs.readFileSync(origin, 'utf-8');
+        _recursiveMkDir(path.dirname(destination));
+        fs.writeFileSync(destination, data);
+        return resolve();
+      })
+      if(!files.length) resolve();
+    })
+  });
+}
+
+// Recursively create a dir.
+function _recursiveMkDir(dir) {
+  if (!fs.existsSync(dir)) {
+    _recursiveMkDir(path.dirname(dir));
+    fs.mkdirSync(dir);
+  }
+}
+
+// Copy and update package.json file.
+function _copyPackageJson(from, to) {
+  return new Promise((resolve, reject) => {
+    const origin = path.join(from, 'package.json');
+    const destination = path.join(to, 'package.json');
+    let data = JSON.parse(fs.readFileSync(origin, 'utf-8'));
+    delete data.engines;
+    delete data.scripts;
+    delete data.devDependencies;
+    fs.writeFileSync(destination, JSON.stringify(data, null, 2));
+    resolve();
+  });
+}
+
 return Promise.resolve()
   // Copy library to temporary folder and inline html/css.
-  .then(() => _relativeCopy(`**/*`, srcFolder, tempLibFolder)
+  .then(() => _relativeCopy(`**/*`, srcFolder, tempLibFolder))
     .then(() => inlineResources(tempLibFolder))
     .then(() => console.log('Inlining succeeded.'))
-  )
   // Compile to ES2015.
   .then(() => ngc(['--project', `${tempLibFolder}/tsconfig.json`]))
     .then(exitCode => exitCode === 0 ? Promise.resolve() : Promise.reject())
@@ -40,13 +79,13 @@ return Promise.resolve()
     .then(exitCode => exitCode === 0 ? Promise.resolve() : Promise.reject())
     .then(() => console.log('ES5 compilation succeeded.'))
   // Copy typings and metadata to `dist/` folder.
-  .then(() => Promise.resolve()
-    .then(() => _relativeCopy('**/*.d.ts', es2015OutputFolder, distFolder))
+  .then(() =>  Promise.resolve())
+    .then(() => console.log('Typings and metadata copy succeeded.'))
+    .then(() => _relativeCopy('**/*.d.ts', es2015OutputFolder, distFolder, "tatata"))
     .then(() => _relativeCopy('**/*.metadata.json', es2015OutputFolder, distFolder))
     .then(() => console.log('Typings and metadata copy succeeded.'))
-  )
   // Bundle lib.
-  .then(() => {
+  .then(async () => {
     // Base configuration
     const es5Entry = path.join(es5OutputFolder, `${libName}.js`);
     const es2015Entry = path.join(es2015OutputFolder, `${libName}.js`);
@@ -145,8 +184,8 @@ return Promise.resolve()
     const allBundles = [umdConfig, minifiedUmdConfig, fesm5config, fesm2015config]
       .map(cfg => rollup.rollup(cfg).then(bundle => bundle.write(cfg.output)));
 
-    return Promise.all(allBundles)
-      .then(() => console.log('All bundles generated successfully.'))
+    console.log('All bundles generated successfully.');
+    return await Promise.all(allBundles); 
   })
   // Copy package files
   .then(() => Promise.resolve()
@@ -163,42 +202,4 @@ return Promise.resolve()
     process.exit(1);
   });
 
-// Copy files, maintaining relative paths.
-function _relativeCopy(fileGlob, from, to) {
-  return new Promise((resolve, reject) => {
-    glob(fileGlob, { cwd: from, nodir: true }, (err, files) => {
-      if (err) reject(err);
-      files.forEach(file => {
-        const origin = path.join(from, file);
-        const destination = path.join(to, file);
-        const data = fs.readFileSync(origin, 'utf-8');
-        _recursiveMkDir(path.dirname(destination));
-        fs.writeFileSync(destination, data);
-        resolve();
-      })
-    })
-  });
-}
 
-// Recursively create a dir.
-function _recursiveMkDir(dir) {
-  if (!fs.existsSync(dir)) {
-    _recursiveMkDir(path.dirname(dir));
-    fs.mkdirSync(dir);
-  }
-}
-
-// Copy and update package.json file.
-function _copyPackageJson(from, to) {
-  return new Promise((resolve, reject) => {
-    const origin = path.join(from, 'package.json');
-    const destination = path.join(to, 'package.json');
-    console.log(origin, destination);
-    let data = JSON.parse(fs.readFileSync(origin, 'utf-8'));
-    delete data.engines;
-    delete data.scripts;
-    delete data.devDependencies;
-    fs.writeFileSync(destination, JSON.stringify(data, null, 2));
-    resolve();
-  });
-}
