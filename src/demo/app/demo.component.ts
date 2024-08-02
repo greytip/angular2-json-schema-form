@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { Examples } from './example-schemas.model';
-import { JsonPointer } from '../../lib/src/shared';
+import {JsonPointer} from '../../../projects/greytip-angular-json-schema/src/public-api';
+
 
 @Component({
   selector: 'demo',

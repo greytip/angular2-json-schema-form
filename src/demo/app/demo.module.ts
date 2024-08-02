@@ -10,10 +10,6 @@ import {
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 
-import {
-  JsonSchemaFormModule, NoFrameworkModule, MaterialDesignFrameworkModule,
-  Bootstrap3FrameworkModule, Bootstrap4FrameworkModule, JsonSchemaFormService, FrameworkLibraryService, WidgetLibraryService, Framework, Bootstrap3Framework
-} from '../../lib';
 
 // To include JsonSchemaFormModule after downloading from NPM, use this instead:
 //
@@ -30,6 +26,13 @@ import { DemoRootComponent } from './demo-root.component';
 
 import { routes } from './demo.routes';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Bootstrap3Framework,
+  Bootstrap3FrameworkModule,
+  Bootstrap4FrameworkModule, Framework, FrameworkLibraryService, JsonSchemaFormModule, JsonSchemaFormService,
+  MaterialDesignFrameworkModule,
+  NoFrameworkModule, WidgetLibraryService
+} from '../../../projects/greytip-angular-json-schema/src/public-api';
 
 @NgModule({
   declarations: [ AceEditorDirective, DemoComponent, DemoRootComponent ],
