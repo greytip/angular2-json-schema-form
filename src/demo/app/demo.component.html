@@ -72,7 +72,7 @@
     <h4 class="default-cursor" (click)="toggleVisible('options')">
       {{visible.options ? '▼' : '▶'}} Selected Framework and Options
     </h4>
-    <div *ngIf="visible.options" fxLayout="column" [@expandSection]="true">
+    <div *ngIf="visible.options" style="display: flex; flex-direction: column" [@expandSection]="true">
       <mat-form-field>
         <mat-select
           [(ngModel)]="selectedFramework"
@@ -165,7 +165,7 @@
     <h4 class="default-cursor" (click)="toggleVisible('output')">
       {{visible.output ? '▼' : '▶'}} Form Output
     </h4>
-    <div *ngIf="visible.output" fxLayout="column" [@expandSection]="true">
+    <div *ngIf="visible.output" style="display: flex; flex-direction: column" [@expandSection]="true">
       <div>
         Valid?:
         <strong *ngIf="formIsValid || prettyValidationErrors"
