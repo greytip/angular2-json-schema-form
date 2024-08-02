@@ -3,7 +3,7 @@
     "downlevelIteration": true,
     "importHelpers": true,
     "target": "es2015",
-    "module": "esnext",
+    "module": "es2020",
     "moduleResolution": "node",
     "sourceMap": true,
     "inlineSources": true,
