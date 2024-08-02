@@ -24,7 +24,7 @@ import { NoFrameworkModule } from './framework-library/no-framework/no-framework
   exports: [ JsonSchemaFormComponent, WidgetLibraryModule ]
 })
 export class JsonSchemaFormModule {
-  static forRoot(...frameworks): ModuleWithProviders {
+  static forRoot(...frameworks): ModuleWithProviders<JsonSchemaFormModule> {
     const loadFrameworks = frameworks.length ?
       frameworks.map(framework => framework.forRoot().providers[0]) :
       [{ provide: Framework, useClass: NoFramework, multi: true }];

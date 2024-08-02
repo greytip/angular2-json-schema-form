@@ -11,9 +11,12 @@
       ]
     }
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
+  "atom": { "rewriteTsconfig": false },
+  "files": [
+    "main.ts",
+    "polyfills.ts"
   ],
-  "atom": { "rewriteTsconfig": false }
+  "include": [
+    "src/demo/**/*.d.ts"
+  ]
 }
