@@ -417,7 +417,7 @@ export function formatFormData(
         JsonPointer.has(dataMap, [dataPointer, 'schemaType']) ? dataPointer :
           removeRecursiveReferences(dataPointer, recursiveRefMap, arrayMap);
       if (JsonPointer.has(dataMap, [genericPointer, 'schemaType'])) {
-        const schemaType: SchemaPrimitiveType | SchemaPrimitiveType[] =
+        const schemaType: SchemaPrimitiveType | SchemaPrimitiveType[] | any =
           dataMap.get(genericPointer).get('schemaType');
         if (schemaType === 'null') {
           JsonPointer.set(formattedData, dataPointer, null);
