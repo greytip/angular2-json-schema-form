@@ -13,5 +13,6 @@
     "ajv": "^6.0.1",
     "lodash": "^4.17.15",
     "tslib": "^2.0.0"
-  }
+  },
+  "note": "⭐⭐⭐ Please do not run `npm install` in this directory. Run `npm install` only at the root level. Running `npm install` inside this folder may cause version conflicts and break the build & compilation process."
 }
