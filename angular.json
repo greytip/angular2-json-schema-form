@@ -29,7 +29,12 @@
             "styles": [
               "src/demo/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "brace/mode/json",
+              "lodash",
+              "ajv"
+            ]
           },
           "configurations": {
             "production": {
