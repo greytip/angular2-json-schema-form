@@ -28,10 +28,13 @@
   "module": "./angular2-json-schema-form.es5.js",
   "es2015": "./angular2-json-schema-form.js",
   "typings": "./angular2-json-schema-form.d.ts",
+  "engines": {
+    "node": "18"
+  },
   "scripts": {
     "ng": "ng",
     "serve": "ng serve",
-    "start": "ng serve",
+    "start": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng serve",
     "test": "ng test",
     "lint": "ng lint",
     "docs": "typedoc src/lib/src/",
@@ -42,7 +45,7 @@
     "prepublishOnly": "npm run build",
     "publish": "cd dist && npm publish",
     "preng-build": "rimraf dist/*",
-    "ng-build": "ng build",
+    "ng-build": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng build",
     "predeploy": "npm run ng-build",
     "deploy": "firebase deploy"
   },
@@ -94,6 +97,6 @@
     "tslint": "~6.1.0",
     "typedoc": "^0.15.0",
     "typescript": "^4.3.5",
-    "zone.js": "~0.11.8"
+    "zone.js": "~0.11.4"
   }
 }

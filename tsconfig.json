@@ -18,7 +18,6 @@
       "dom",
       "es7"
     ],
-    "emitDecoratorMetadata": true,
     "baseUrl": "./",
     "paths": {
       "greytip-angular-json-schema": [
