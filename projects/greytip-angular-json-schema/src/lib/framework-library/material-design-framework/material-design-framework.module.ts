@@ -43,13 +43,12 @@ import { MATERIAL_FRAMEWORK_COMPONENTS } from './index';
 import { MaterialDesignFramework } from './material-design.framework';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, ReactiveFormsModule,
-    ...ANGULAR_MATERIAL_MODULES, WidgetLibraryModule
-  ],
-  declarations:    [ ...MATERIAL_FRAMEWORK_COMPONENTS ],
-  exports:         [ ...MATERIAL_FRAMEWORK_COMPONENTS ],
-  entryComponents: [ ...MATERIAL_FRAMEWORK_COMPONENTS ]
+    imports: [
+        CommonModule, FormsModule, ReactiveFormsModule,
+        ...ANGULAR_MATERIAL_MODULES, WidgetLibraryModule
+    ],
+    declarations: [...MATERIAL_FRAMEWORK_COMPONENTS],
+    exports: [...MATERIAL_FRAMEWORK_COMPONENTS]
 })
 export class MaterialDesignFrameworkModule {
   static forRoot(): ModuleWithProviders<MaterialDesignFrameworkModule> {

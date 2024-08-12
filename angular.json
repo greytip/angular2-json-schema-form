@@ -52,7 +52,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -100,13 +99,6 @@
               "src/demo/favicon.ico"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [],
-            "exclude": []
-          }
         }
       }
     },
@@ -134,18 +126,6 @@
             "main": "projects/greytip-angular-json-schema/src/test.ts",
             "tsConfig": "projects/greytip-angular-json-schema/tsconfig.spec.json",
             "karmaConfig": "projects/greytip-angular-json-schema/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/greytip-angular-json-schema/tsconfig.lib.json",
-              "projects/greytip-angular-json-schema/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }

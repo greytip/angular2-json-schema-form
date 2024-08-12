@@ -9,10 +9,9 @@ import { NoFrameworkComponent } from './no-framework.component';
 import { NoFramework } from './no.framework';
 
 @NgModule({
-  imports:         [ CommonModule, WidgetLibraryModule ],
-  declarations:    [ NoFrameworkComponent ],
-  exports:         [ NoFrameworkComponent ],
-  entryComponents: [ NoFrameworkComponent ]
+    imports: [CommonModule, WidgetLibraryModule],
+    declarations: [NoFrameworkComponent],
+    exports: [NoFrameworkComponent]
 })
 export class NoFrameworkModule {
   static forRoot(): ModuleWithProviders<NoFrameworkModule> {
