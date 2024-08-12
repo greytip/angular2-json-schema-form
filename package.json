@@ -1,10 +1,6 @@
 {
   "name": "angular2-json-schema-form",
   "version": "1.0.0",
-  "author": {
-    "name": "Sourabh",
-    "email": "sourabh.siddhu@gmail.com"
-  },
   "description": "Angular JSON Schema Form builder",
   "keywords": [
     "Angular",
@@ -22,11 +18,11 @@
   ],
   "license": "MIT",
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/saurabhSiddhu/angular2-json-schema-form"
+    "type": "",
+    "url": "https://github.com/greytip/angular2-json-schema-form"
   },
   "bugs": {
-    "url": "https://github.com/saurabhSiddhu/angular2-json-schema-form/issues"
+    "url": "https://github.com/greytip/angular2-json-schema-form/issues"
   },
   "main": "./bundles/angular2-json-schema-form.umd.js",
   "module": "./angular2-json-schema-form.es5.js",
