@@ -29,7 +29,12 @@
             "styles": [
               "src/demo/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "brace/mode/json",
+              "lodash",
+              "ajv"
+            ]
           },
           "configurations": {
             "production": {
@@ -107,7 +112,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/greytip-angular-json-schema/tsconfig.lib.json",
             "project": "projects/greytip-angular-json-schema/ng-package.json"
