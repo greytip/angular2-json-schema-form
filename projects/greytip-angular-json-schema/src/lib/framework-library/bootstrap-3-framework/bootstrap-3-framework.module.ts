@@ -8,10 +8,9 @@ import { Bootstrap3FrameworkComponent } from './bootstrap-3-framework.component'
 import { Bootstrap3Framework } from './bootstrap-3.framework';
 
 @NgModule({
-  imports:         [ CommonModule, WidgetLibraryModule ],
-  declarations:    [ Bootstrap3FrameworkComponent ],
-  exports:         [ Bootstrap3FrameworkComponent ],
-  entryComponents: [ Bootstrap3FrameworkComponent ]
+    imports: [CommonModule, WidgetLibraryModule],
+    declarations: [Bootstrap3FrameworkComponent],
+    exports: [Bootstrap3FrameworkComponent]
 })
 export class Bootstrap3FrameworkModule {
   static forRoot(): ModuleWithProviders<Bootstrap3FrameworkModule> {

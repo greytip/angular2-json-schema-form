@@ -8,10 +8,9 @@ import { Bootstrap4FrameworkComponent } from './bootstrap-4-framework.component'
 import { Bootstrap4Framework } from './bootstrap-4.framework';
 
 @NgModule({
-  imports:         [ CommonModule, WidgetLibraryModule ],
-  declarations:    [ Bootstrap4FrameworkComponent ],
-  exports:         [ Bootstrap4FrameworkComponent ],
-  entryComponents: [ Bootstrap4FrameworkComponent ]
+    imports: [CommonModule, WidgetLibraryModule],
+    declarations: [Bootstrap4FrameworkComponent],
+    exports: [Bootstrap4FrameworkComponent]
 })
 export class Bootstrap4FrameworkModule {
   static forRoot(): ModuleWithProviders<Bootstrap4FrameworkModule> {

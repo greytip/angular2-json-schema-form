@@ -9,11 +9,10 @@ import { JsonSchemaFormService } from '../json-schema-form.service';
 import { BASIC_WIDGETS } from './index';
 
 @NgModule({
-  imports:         [ CommonModule, FormsModule, ReactiveFormsModule ],
-  declarations:    [ ...BASIC_WIDGETS, OrderableDirective ],
-  exports:         [ ...BASIC_WIDGETS, OrderableDirective ],
-  entryComponents: [ ...BASIC_WIDGETS ],
-  providers:       [ JsonSchemaFormService ]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule],
+    declarations: [...BASIC_WIDGETS, OrderableDirective],
+    exports: [...BASIC_WIDGETS, OrderableDirective],
+    providers: [JsonSchemaFormService]
 })
 export class WidgetLibraryModule {
   static forRoot(): ModuleWithProviders<WidgetLibraryModule> {
