@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatIconModule,
-  MatMenuModule, MatSelectModule, MatToolbarModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 
-import {
-  JsonSchemaFormModule, NoFrameworkModule, MaterialDesignFrameworkModule,
-  Bootstrap3FrameworkModule, Bootstrap4FrameworkModule
-} from '../../lib';
 
 // To include JsonSchemaFormModule after downloading from NPM, use this instead:
 //
@@ -30,11 +29,18 @@ import { DemoRootComponent } from './demo-root.component';
 
 import { routes } from './demo.routes';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Bootstrap3Framework,
+  Bootstrap3FrameworkModule,
+  Bootstrap4FrameworkModule, Framework, FrameworkLibraryService, JsonSchemaFormModule, JsonSchemaFormService,
+  MaterialDesignFrameworkModule,
+  NoFrameworkModule, WidgetLibraryService
+} from '../../../projects/greytip-angular-json-schema/src/public-api';
 
 @NgModule({
   declarations: [ AceEditorDirective, DemoComponent, DemoRootComponent ],
   imports: [
-    BrowserModule, BrowserAnimationsModule, FlexLayoutModule, FormsModule,
+    BrowserModule, BrowserAnimationsModule, FormsModule,
     HttpClientModule, MatButtonModule, MatCardModule, MatCheckboxModule,
     MatIconModule, MatMenuModule, MatSelectModule, MatToolbarModule,
     RouterModule.forRoot(routes),
@@ -42,12 +48,15 @@ import { ActivatedRoute, Router } from '@angular/router';
     NoFrameworkModule, MaterialDesignFrameworkModule,
     Bootstrap3FrameworkModule, Bootstrap4FrameworkModule,
 
-    JsonSchemaFormModule.forRoot(
-      NoFrameworkModule,
-      MaterialDesignFrameworkModule,
-      Bootstrap3FrameworkModule,
-      Bootstrap4FrameworkModule
-    )
+    {
+      ngModule: JsonSchemaFormModule,
+      providers: [
+        JsonSchemaFormService,
+        FrameworkLibraryService,
+        WidgetLibraryService,
+        { provide: Framework, useClass: Bootstrap3Framework, multi: true }
+      ]
+    }
   ],
   bootstrap: [ DemoRootComponent ]
 })

@@ -14,7 +14,7 @@ const sourcemaps = require('rollup-plugin-sourcemaps');
 const nodeResolve = require('rollup-plugin-node-resolve-angular');
 const commonjs = require('rollup-plugin-commonjs');
 const inlineResources = require('./inline-resources');
-const libName = require('./package.json').name;
+const libName = 'angular2-json-schema-form';
 const rootFolder = path.join(__dirname);
 const compilationFolder = path.join(rootFolder, 'out-ngc');
 const srcFolder = path.join(rootFolder, 'src/lib');
@@ -126,7 +126,7 @@ return Promise.resolve()
       output: Object.assign({}, rollupBaseConfig.output, {
         file: path.join(distFolder, `${libName}.es5.js`),
         format: 'es',
-        intro: `import * as Ajv from 'ajv';\nimport * as _ from 'lodash';`
+        intro: `import * as _ from 'lodash';`
       })
     });
 
@@ -136,7 +136,6 @@ return Promise.resolve()
       output: Object.assign({}, rollupBaseConfig.output, {
         file: path.join(distFolder, `${libName}.js`),
         format: 'es',
-        intro: `import * as Ajv from 'ajv';`
       })
     });
 

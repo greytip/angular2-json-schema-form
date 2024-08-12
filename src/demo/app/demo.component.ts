@@ -1,13 +1,14 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-import 'rxjs/add/operator/map';
+
 
 import { Examples } from './example-schemas.model';
-import { JsonPointer } from '../../lib/src/shared';
+import {JsonPointer} from '../../../projects/greytip-angular-json-schema/src/public-api';
+
 
 @Component({
   selector: 'demo',
@@ -43,7 +44,7 @@ export class DemoComponent implements OnInit {
   selectedSetName = '';
   selectedExample = 'ng-jsf-flex-layout';
   selectedExampleName = 'Flexbox layout';
-  selectedFramework = 'material-design';
+  selectedFramework = 'bootstrap-3';
   selectedLanguage = 'en';
   visible: { [item: string]: boolean } = {
     options: true,
@@ -64,6 +65,7 @@ export class DemoComponent implements OnInit {
     returnEmptyFields: false, // Don't return values for empty input fields
     setSchemaDefaults: true, // Always use schema defaults for empty fields
     defautWidgetOptions: { feedback: true }, // Show inline feedback icons
+    activateConditionallyRequired: true
   };
   liveFormData: any = {};
   formValidationErrors: any;
@@ -75,7 +77,7 @@ export class DemoComponent implements OnInit {
     printMargin: false,
     autoScrollEditorIntoView: true,
   };
-  @ViewChild(MatMenuTrigger) menuTrigger: MatMenuTrigger;
+  @ViewChild(MatMenuTrigger, { static: true }) menuTrigger: MatMenuTrigger;
 
   constructor(
     private http: HttpClient,
@@ -180,7 +182,7 @@ export class DemoComponent implements OnInit {
       this.formIsValid = null;
       this.formValidationErrors = null;
     }
-    const exampleURL = `assets/example-schemas/${this.selectedExample}.json`;
+    const exampleURL = `assets/example-schemas/employment.json`;
     this.http
       .get(exampleURL, { responseType: 'text' })
       .subscribe(schema => {

@@ -1,0 +1,260 @@
+{ 
+  "formOptions": {
+   
+    "loadExternalAssets": false,
+    "returnEmptyFields": false,
+    "setSchemaDefaults": false,
+    "activateConditionallyRequired": true
+  },
+  "schema": {
+      "type": "object",
+      "properties": {
+        "ob_previous_employment_section": {
+          "type": "array",
+          "title": "Add another Employment",
+          "maxItems": 5,
+          "minItems": 0,
+          "orderable": false,
+          
+          "items": {
+            "type": "object",
+            "properties": {
+              "workExp$empWorkExp$todate": {
+                "type": "string",
+                "title": "todate",
+                "description": "To Date"
+              },
+              "workExp$empWorkExp$companyAddress": {
+                "type": "string",
+                "title": "companyAddress",
+                "description": "Company Address",
+                "maxLength": 500
+              },
+              "workExp$empWorkExp$designation": {
+                "type": "string",
+                "title": "designation",
+                "description": "Designation",
+                "maxLength": 100
+              },
+              "nocategory$empWorkExp$cid": {
+                "type": "number",
+                "title": "Work_experience_Id_field",
+                "description": "Work experience Id field",
+                "maxLength": 10
+              },
+              "guid": {
+                "type": "string"
+              },
+              "workExp$empWorkExp$companyName": {
+                "type": "string",
+                "title": "companyName",
+                "description": "Company Name",
+                "maxLength": 100
+              },
+              
+              "workExp$empWorkExp$fromdate": {
+                "type": "string",
+                "title": "fromdate",
+                "description": "From Date"
+              }
+            },
+            
+            "array": false,
+            "firstItem": {
+              "present": true
+            },
+            "arrayPropKeys": [],
+            "propKeys": [
+              "workExp.empWorkExp.todate",
+              "workExp.empWorkExp.companyAddress",
+              "workExp.empWorkExp.designation",
+              "nocategory.empWorkExp.cid",
+              "guid",
+              "workExp.empWorkExp.companyName",
+              "workExp.empWorkExp.fromdate"
+            ]
+          }
+        },
+        "workExp$empWorkExp$isInexperienced": {
+          "type": "boolean",
+          "title": "isInexperienced",
+          "description": "Is Employee Inexperienced ?"
+          
+        }
+      }
+      ,
+     
+     
+      "firstItem": {
+        "present": true
+      },
+      "arrayPropKeys": [
+        "workExp.empWorkExp.todate",
+        "workExp.empWorkExp.companyAddress",
+        "workExp.empWorkExp.designation",
+        "nocategory.empWorkExp.cid",
+        "guid",
+        "workExp.empWorkExp.companyName",
+        "workExp.empWorkExp.fromdate"
+      ],
+      "propKeys": [
+        "ob_previous_employment_section"
+      ],
+      "arrayKey": "ob_previous_employment_section"
+  },
+    "layout": [
+      {
+        "key": "workExp$empWorkExp$isInexperienced",
+        "title": "No previous employment to share",
+        "type": "checkbox",
+        "htmlClass": "col-sm-4 null",
+        "enableSuccessState": false,
+        "enableErrorState": false,
+        "activateConditionallyRequired":true,
+        "formBehaviourActions":[
+        {
+          "key": "ob_previous_employment_section.workExp$empWorkExp$companyName",
+          "types": ["disable", "optional", "hideValue"],
+          "condition": "return val"
+        },
+        {
+          "key": "ob_previous_employment_section.workExp$empWorkExp$designation",
+          "types": ["disable", "optional", "hideValue"],
+          "condition": "return val"
+        },
+        {
+          "key": "ob_previous_employment_section.workExp$empWorkExp$fromdate",
+          "types": ["disable", "optional", "hideValue"],
+          "condition": "return val"
+        },
+        {
+          "key": "ob_previous_employment_section.workExp$empWorkExp$todate",
+          "types": ["disable", "optional", "hideValue"],
+          "condition": "return val"
+        },
+        {
+          "key": "ob_previous_employment_section.workExp$empWorkExp$companyAddress",
+          "types": ["disable", "optional", "hideValue"],
+          "condition": "return val"
+        }],
+        "hideAddItems": "return val"
+    },
+      {
+        "key": "ob_previous_employment_section",
+        "notitle": true,
+        "enableSuccessState": false,
+        "items": [
+        
+          {
+            "type": "fieldset",
+            "legend": "Employment {{$index}}",
+            "enableSuccessState": false,
+            "items": [
+              {
+                "type": "section",
+                "htmlClass": "row",
+                "items": [
+                  {
+                    "key": "ob_previous_employment_section[].nocategory$empWorkExp$cid",
+                    "type": "hidden",
+                    "notitle": true,
+                    "htmlClass": "col-placeholder col-placeholder",
+                    "enableSuccessState": false,
+                    "enableErrorState": false
+                  },
+                  {
+                    "key": "ob_previous_employment_section[].guid",
+                    "type": "hidden",
+                    "notitle": true,
+                    "htmlClass": "col-placeholder col-placeholder",
+                    "enableSuccessState": false,
+                    "enableErrorState": false
+                  },
+                  {
+                    "key": "ob_previous_employment_section[].workExp$empWorkExp$companyName",
+                    "title": "Company Name",
+                    "htmlClass": "col-sm-4 col-sm-4",
+                    "enableSuccessState": false,
+                    "enableErrorState": true,
+                    "validationMessages": {
+                      "required": "Company Name is mandatory",
+                      "maxLength": "Company name cannot be greater than {{maximumLength}} characters"
+                    }
+                  },
+                  {
+                    "key": "ob_previous_employment_section[].workExp$empWorkExp$designation",
+                    "title": "Designation",
+                    "htmlClass": "col-sm-4 col-sm-4",
+                 
+                    "enableSuccessState": false,
+                    "enableErrorState": true,
+                    "validationMessages": {
+                      "required": "Designation is mandatory",
+                      "maxLength": "Designation cannot be greater than {{maximumLength}} characters"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "section",
+                "htmlClass": "row",
+                "items": [
+                  {
+                    "key": "ob_previous_employment_section[].workExp$empWorkExp$fromdate",
+                    "title": "From Date",
+                    "type": "gtDate",
+                    "htmlClass": "col-sm-4 col-sm-4",
+                    "enableSuccessState": false,
+                    "enableErrorState": true,
+                    "dateOptions": {
+                      "dateFormat": "dd mmm yyyy"
+                    },
+                    "validationMessages": {
+                      "required": "From Date is mandatory"
+                    }
+                  },
+                  {
+                    "key": "ob_previous_employment_section[].workExp$empWorkExp$todate",
+                    "title": "To Date",
+                    "type": "gtDate",
+                    "htmlClass": "col-sm-4 col-sm-4",
+                    "enableSuccessState": false,
+                    "enableErrorState": true,
+                    "dateOptions": {
+                      "dateFormat": "dd mmm yyyy"
+                    },
+                    "validationMessages": {
+                      "required": "To Date is mandatory"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "section",
+                "htmlClass": "row",
+                "items": [
+                  {
+                    "key": "ob_previous_employment_section[].workExp$empWorkExp$companyAddress",
+                    "title": "Company Address",
+                    "type": "input",
+                    "htmlClass": "col-sm-8 col-sm-8",
+                    "enableSuccessState": false,
+                    "enableErrorState": true,
+                    "validationMessages": {
+                      "required": "Company Address is mandatory",
+                      "maxLength": "Address cannot be greater than {{maximumLength}} characters"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+      
+  ],
+  "data":{ 
+    "workExp$empWorkExp$isInexperienced":false,
+    "ob_previous_employment_section":[]
+  }
+}
