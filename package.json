@@ -31,6 +31,7 @@
   "engines": {
     "node": "18"
   },
+  "engineStrict": true,
   "scripts": {
     "ng": "ng",
     "serve": "ng serve",
@@ -47,7 +48,8 @@
     "preng-build": "rimraf dist/*",
     "ng-build": "node --openssl-legacy-provider ./node_modules/@angular/cli/bin/ng build",
     "predeploy": "npm run ng-build",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "build-lib": "ng build greytip-angular-json-schema"
   },
   "dependencies": {
     "ajv": "^6.0.1",
