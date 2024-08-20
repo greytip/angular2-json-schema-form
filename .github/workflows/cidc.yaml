@@ -1,7 +1,3 @@
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 name: Build and Publish Package
 on:
   push:
