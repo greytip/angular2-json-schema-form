@@ -1,30 +1,34 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import { AbstractControl } from "@angular/forms";
+import { Subscription } from "rxjs";
 
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import { JsonSchemaFormService } from '../../json-schema-form.service';
-import { hasOwn } from './../../shared/utility.functions';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { JsonSchemaFormService } from "../../json-schema-form.service";
+import { hasOwn } from "./../../shared/utility.functions";
+import { distinctUntilChanged } from "rxjs";
 
 @Component({
-  selector: 'material-checkbox-widget',
-  template: `
-    <mat-checkbox *ngIf="boundControl && !showSlideToggle"
+  selector: "material-checkbox-widget",
+  template: ` <mat-checkbox
+      *ngIf="boundControl && !showSlideToggle"
       [formControl]="formControl"
       align="left"
       [color]="options?.color || 'primary'"
       [id]="'control' + layoutNode?._id"
       labelPosition="after"
       [name]="controlName"
-      (blur)="options.showErrors = true">
-      <span *ngIf="options?.title"
+      (blur)="options.showErrors = true"
+    >
+      <span
+        *ngIf="options?.title"
         class="checkbox-name"
         [style.display]="options?.notitle ? 'none' : ''"
-        [innerHTML]="options?.title"></span>
+        [innerHTML]="options?.title"
+      ></span>
     </mat-checkbox>
-    <mat-checkbox *ngIf="!boundControl && !showSlideToggle"
+    <mat-checkbox
+      *ngIf="!boundControl && !showSlideToggle"
       align="left"
       [color]="options?.color || 'primary'"
       [disabled]="controlDisabled || options?.readonly"
@@ -33,26 +37,34 @@ import { distinctUntilChanged } from 'rxjs/operators';
       [name]="controlName"
       [checked]="isChecked"
       (blur)="options.showErrors = true"
-      (change)="updateValue($event)">
-      <span *ngIf="options?.title"
+      (change)="updateValue($event)"
+    >
+      <span
+        *ngIf="options?.title"
         class="checkbox-name"
         [style.display]="options?.notitle ? 'none' : ''"
-        [innerHTML]="options?.title"></span>
+        [innerHTML]="options?.title"
+      ></span>
     </mat-checkbox>
-    <mat-slide-toggle *ngIf="boundControl && showSlideToggle"
+    <mat-slide-toggle
+      *ngIf="boundControl && showSlideToggle"
       [formControl]="formControl"
       align="left"
       [color]="options?.color || 'primary'"
       [id]="'control' + layoutNode?._id"
       labelPosition="after"
       [name]="controlName"
-      (blur)="options.showErrors = true">
-      <span *ngIf="options?.title"
+      (blur)="options.showErrors = true"
+    >
+      <span
+        *ngIf="options?.title"
         class="checkbox-name"
         [style.display]="options?.notitle ? 'none' : ''"
-        [innerHTML]="options?.title"></span>
+        [innerHTML]="options?.title"
+      ></span>
     </mat-slide-toggle>
-    <mat-slide-toggle *ngIf="!boundControl && showSlideToggle"
+    <mat-slide-toggle
+      *ngIf="!boundControl && showSlideToggle"
       align="left"
       [color]="options?.color || 'primary'"
       [disabled]="controlDisabled || options?.readonly"
@@ -61,18 +73,29 @@ import { distinctUntilChanged } from 'rxjs/operators';
       [name]="controlName"
       [checked]="isChecked"
       (blur)="options.showErrors = true"
-      (change)="updateValue($event)">
-      <span *ngIf="options?.title"
+      (change)="updateValue($event)"
+    >
+      <span
+        *ngIf="options?.title"
         class="checkbox-name"
         [style.display]="options?.notitle ? 'none' : ''"
-        [innerHTML]="options?.title"></span>
+        [innerHTML]="options?.title"
+      ></span>
     </mat-slide-toggle>
-    <mat-error *ngIf="options?.showErrors && options?.errorMessage"
-      [innerHTML]="options?.errorMessage"></mat-error>`,
-  styles: [`
-    .checkbox-name { white-space: nowrap; }
-    mat-error { font-size: 75%; }
-  `],
+    <mat-error
+      *ngIf="options?.showErrors && options?.errorMessage"
+      [innerHTML]="options?.errorMessage"
+    ></mat-error>`,
+  styles: [
+    `
+      .checkbox-name {
+        white-space: nowrap;
+      }
+      mat-error {
+        font-size: 75%;
+      }
+    `,
+  ],
 })
 export class MaterialCheckboxComponent implements OnInit, OnDestroy {
   formControl: AbstractControl;
@@ -89,9 +112,7 @@ export class MaterialCheckboxComponent implements OnInit, OnDestroy {
 
   private dataChanges$: Subscription;
 
-  constructor(
-    private jsf: JsonSchemaFormService
-  ) { }
+  constructor(private jsf: JsonSchemaFormService) {}
 
   ngOnInit() {
     this.options = this.layoutNode.options || {};
@@ -100,19 +121,24 @@ export class MaterialCheckboxComponent implements OnInit, OnDestroy {
       this.controlValue = false;
       this.jsf.updateValue(this, this.falseValue);
     }
-    if (this.layoutNode.type === 'slide-toggle' ||
-      this.layoutNode.format === 'slide-toggle'
+    if (
+      this.layoutNode.type === "slide-toggle" ||
+      this.layoutNode.format === "slide-toggle"
     ) {
       this.showSlideToggle = true;
     }
 
-    this.dataChanges$ =
-      this.jsf.dataChanges.pipe(distinctUntilChanged((current, prev) => _.isEqual(current, prev)))
-        .subscribe((values) => { this.updateDisabled(); });
+    this.dataChanges$ = this.jsf.dataChanges
+      .pipe(distinctUntilChanged((current, prev) => _.isEqual(current, prev)))
+      .subscribe((values) => {
+        this.updateDisabled();
+      });
 
     // Ugly hack to disable field after rendering.
     // TODO: Try to do this is in buildFormGroupTemplate.
-    setTimeout(() => { this.updateDisabled(); });
+    setTimeout(() => {
+      this.updateDisabled();
+    });
   }
 
   ngOnDestroy() {
@@ -125,7 +151,10 @@ export class MaterialCheckboxComponent implements OnInit, OnDestroy {
 
   updateValue(event) {
     this.options.showErrors = true;
-    this.jsf.updateValue(this, event.checked ? this.trueValue : this.falseValue);
+    this.jsf.updateValue(
+      this,
+      event.checked ? this.trueValue : this.falseValue
+    );
   }
 
   get isChecked() {
@@ -133,7 +162,10 @@ export class MaterialCheckboxComponent implements OnInit, OnDestroy {
   }
 
   updateDisabled() {
-    if (this.controlDisabled) { this.formControl.disable(); }
-    else { this.formControl.enable(); }
+    if (this.controlDisabled) {
+      this.formControl.disable();
+    } else {
+      this.formControl.enable();
+    }
   }
 }

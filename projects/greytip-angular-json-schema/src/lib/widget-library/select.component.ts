@@ -1,12 +1,11 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, distinctUntilChanged } from "rxjs";
 
 import * as _ from 'lodash';
 
 import { JsonSchemaFormService } from '../json-schema-form.service';
 import { buildTitleMap, isArray } from '../shared';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'select-widget',

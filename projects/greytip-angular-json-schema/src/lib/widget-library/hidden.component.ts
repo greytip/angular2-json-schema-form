@@ -1,26 +1,28 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {AbstractControl} from "@angular/forms";
+import {distinctUntilChanged, Subscription} from "rxjs";
 
-import * as _ from 'lodash';
+import * as _ from "lodash";
 
-import { JsonSchemaFormService } from '../json-schema-form.service';
-import { distinctUntilChanged } from 'rxjs/operators';
+import {JsonSchemaFormService} from "../json-schema-form.service";
 
 @Component({
-  selector: 'hidden-widget',
-  template: `
-    <input *ngIf="boundControl"
+  selector: "hidden-widget",
+  template: ` <input
+      *ngIf="boundControl"
       [formControl]="formControl"
       [id]="'control' + layoutNode?._id"
       [name]="controlName"
-      type="hidden">
-    <input *ngIf="!boundControl"
+      type="hidden"
+    />
+    <input
+      *ngIf="!boundControl"
       [disabled]="controlDisabled"
       [name]="controlName"
       [id]="'control' + layoutNode?._id"
       type="hidden"
-      [value]="controlValue">`,
+      [value]="controlValue"
+    />`,
 })
 export class HiddenComponent implements OnInit, OnDestroy {
   formControl: AbstractControl;
@@ -33,20 +35,22 @@ export class HiddenComponent implements OnInit, OnDestroy {
 
   private dataChanges$: Subscription;
 
-  constructor(
-    private jsf: JsonSchemaFormService
-  ) { }
+  constructor(private jsf: JsonSchemaFormService) {}
 
   ngOnInit() {
     this.jsf.initializeControl(this);
 
-    this.dataChanges$ =
-      this.jsf.dataChanges.pipe(distinctUntilChanged((current, prev) => _.isEqual(current, prev)))
-        .subscribe((values) => { this.updateDisabled(); });
+    this.dataChanges$ = this.jsf.dataChanges
+      .pipe(distinctUntilChanged((current, prev) => _.isEqual(current, prev)))
+      .subscribe((values) => {
+        this.updateDisabled();
+      });
 
     // Ugly hack to disable field after rendering.
     // TODO: Try to do this is in buildFormGroupTemplate.
-    setTimeout(() => { this.updateDisabled(); });
+    setTimeout(() => {
+      this.updateDisabled();
+    });
   }
 
   ngOnDestroy() {
@@ -58,7 +62,10 @@ export class HiddenComponent implements OnInit, OnDestroy {
   }
 
   updateDisabled() {
-    if (this.controlDisabled) { this.formControl.disable(); }
-    else { this.formControl.enable(); }
+    if (this.controlDisabled) {
+      this.formControl.disable();
+    } else {
+      this.formControl.enable();
+    }
   }
 }
