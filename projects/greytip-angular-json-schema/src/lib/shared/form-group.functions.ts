@@ -1,5 +1,5 @@
 import {
-  AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn
+  AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn
 } from '@angular/forms';
 
 import * as _ from 'lodash';
@@ -301,13 +301,13 @@ export function buildFormGroup(template: any): AbstractControl {
           let newControl: AbstractControl = buildFormGroup(controls);
           if (newControl) { groupControls[key] = newControl; }
         });
-        return new FormGroup(groupControls, {...options});
+        return new UntypedFormGroup(groupControls, {...options});
       case 'FormArray':
-        return new FormArray(_.filter(_.map(template.controls,
+        return new UntypedFormArray(_.filter(_.map(template.controls,
           controls => buildFormGroup(controls)
         )), {...options});
       case 'FormControl':
-        return new FormControl(template.value, {...options});
+        return new UntypedFormControl(template.value, {...options});
     }
   }
   return null;
