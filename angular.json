@@ -114,7 +114,6 @@
       }
     }
   },
-  "defaultProject": "angular2-json-schema-form",
   "schematics": {
     "@schematics/angular:component": {
       "flat": true,
