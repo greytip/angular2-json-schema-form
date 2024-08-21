@@ -2,7 +2,7 @@
   "compilerOptions": {
     "downlevelIteration": true,
     "importHelpers": true,
-    "target": "es2020",
+    "target": "ES2022",
     "module": "es2020",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -26,7 +26,8 @@
       "greytip-angular-json-schema/*": [
         "dist/greytip-angular-json-schema/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   },
   "atom": {
     "rewriteTsconfig": false
