@@ -1,11 +1,10 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { distinctUntilChanged, Subscription } from 'rxjs';
 
 import * as _ from 'lodash';
 
 import { JsonSchemaFormService } from '../json-schema-form.service';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'textarea-widget',
