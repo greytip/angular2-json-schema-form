@@ -47,7 +47,8 @@
     "preng-build": "rimraf dist/*",
     "ng-build": "ng build",
     "predeploy": "npm run ng-build",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "build-lib": "ng build greytip-angular-json-schema"
   },
   "dependencies": {
     "ajv": "^6.0.1",
