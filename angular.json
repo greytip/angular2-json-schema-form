@@ -69,18 +69,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "angular2-json-schema-form:build"
+            "browserTarget": "angular2-json-schema-form:build"
           },
           "configurations": {
             "production": {
-              "buildTarget": "angular2-json-schema-form:build:production"
+              "browserTarget": "angular2-json-schema-form:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angular2-json-schema-form:build"
+            "browserTarget": "angular2-json-schema-form:build"
           }
         }
       }
