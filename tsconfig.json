@@ -10,7 +10,7 @@
     "declaration": true,
     "experimentalDecorators": true,
     "removeComments": true,
-    "suppressImplicitAnyIndexErrors": true,
+    "ignoreDeprecations": "5.0",
     "skipLibCheck": true,
     "stripInternal": true,
     "lib": [
