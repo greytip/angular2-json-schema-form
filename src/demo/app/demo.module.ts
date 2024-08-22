@@ -1,18 +1,17 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
-
+import { FormsModule } from "@angular/forms";
+import { HttpClientModule } from "@angular/common/http";
+import {  MatButtonModule } from "@angular/material/button";
+import { MatCardModule } from "@angular/material/card";
+import {  MatCheckboxModule } from "@angular/material/checkbox";
+import { MatIconModule } from "@angular/material/icon";
+import {  MatMenuModule } from "@angular/material/menu";
+import {  MatSelectModule } from "@angular/material/select";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { RouterModule } from "@angular/router";
 
 // To include JsonSchemaFormModule after downloading from NPM, use this instead:
 //
@@ -23,30 +22,45 @@ import { RouterModule } from '@angular/router';
 //
 //   imports: [ ... NoFrameworkModule, JsonSchemaFormModule.forRoot(NoFrameworkModule) ... ]
 
-import { AceEditorDirective } from './ace-editor.directive';
-import { DemoComponent } from './demo.component';
-import { DemoRootComponent } from './demo-root.component';
+import { AceEditorDirective } from "./ace-editor.directive";
+import { DemoComponent } from "./demo.component";
+import { DemoRootComponent } from "./demo-root.component";
 
-import { routes } from './demo.routes';
-import { ActivatedRoute, Router } from '@angular/router';
+import { routes } from "./demo.routes";
+import { ActivatedRoute, Router } from "@angular/router";
 import {
   Bootstrap3Framework,
   Bootstrap3FrameworkModule,
-  Bootstrap4FrameworkModule, Framework, FrameworkLibraryService, JsonSchemaFormModule, JsonSchemaFormService,
+  Bootstrap4FrameworkModule,
+  Framework,
+  FrameworkLibraryService,
+  JsonSchemaFormModule,
+  JsonSchemaFormService,
   MaterialDesignFrameworkModule,
-  NoFrameworkModule, WidgetLibraryService
-} from '../../../projects/greytip-angular-json-schema/src/public-api';
+  NoFrameworkModule,
+  WidgetLibraryService,
+} from "../../../projects/greytip-angular-json-schema/src/public-api";
 
 @NgModule({
-  declarations: [ AceEditorDirective, DemoComponent, DemoRootComponent ],
+  declarations: [AceEditorDirective, DemoComponent, DemoRootComponent],
   imports: [
-    BrowserModule, BrowserAnimationsModule, FormsModule,
-    HttpClientModule, MatButtonModule, MatCardModule, MatCheckboxModule,
-    MatIconModule, MatMenuModule, MatSelectModule, MatToolbarModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatToolbarModule,
     RouterModule.forRoot(routes),
 
-    NoFrameworkModule, MaterialDesignFrameworkModule,
-    Bootstrap3FrameworkModule, Bootstrap4FrameworkModule,
+    NoFrameworkModule,
+    MaterialDesignFrameworkModule,
+    Bootstrap3FrameworkModule,
+    Bootstrap4FrameworkModule,
 
     {
       ngModule: JsonSchemaFormModule,
@@ -54,11 +68,11 @@ import {
         JsonSchemaFormService,
         FrameworkLibraryService,
         WidgetLibraryService,
-        { provide: Framework, useClass: Bootstrap3Framework, multi: true }
-      ]
-    }
+        { provide: Framework, useClass: Bootstrap3Framework, multi: true },
+      ],
+    },
   ],
-  bootstrap: [ DemoRootComponent ]
+  bootstrap: [DemoRootComponent],
 })
 
 // Here, by loading 4 frameworks in JsonSchemaFormModule.forRoot(), the first,
@@ -69,5 +83,4 @@ import {
 //   'material-design-framework',
 //   'bootstrap-3-framework'
 //   'bootstrap-4-framework'
-
-export class DemoModule { }
+export class DemoModule {}

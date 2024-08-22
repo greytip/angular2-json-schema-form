@@ -31,7 +31,7 @@ import { distinctUntilChanged } from "rxjs";
       [min]="options?.minimum"
       [step]="options?.multipleOf || options?.step || 'any'"
       [style.width]="'100%'"
-      [value]="controlValue"
+      [(ngModel)]="controlValue"
       (blur)="options.showErrors = true"
       (change)="updateValue($event)"
     ></mat-slider>
