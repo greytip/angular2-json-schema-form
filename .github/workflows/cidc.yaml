@@ -1,0 +1,42 @@
+name: Build and Publish Package
+on:
+  push:
+    branches:
+      - master
+      - PD-15537
+jobs:
+  build:
+    runs-on: greytip-linkia-node12
+    env:
+      PROJECT: greytip-angular-json-schema-form
+      VERSION: ${{ secrets.VERSION }}
+      AWS_CREDENTIALS: ${{ secrets.AWS_CREDENTIALS }}
+      DOCKER_CREDENTIALS: ${{ secrets.DOCKER_CREDENTIALS }}
+      BUILD_TAG: 0.0.${{ github.run_number }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: |
+          sed -i 's/"version": \S*/"version": "${{ env.BUILD_TAG }}",/g' projects/greytip-angular-json-schema/package.json
+          cat package.json
+          npm run build-lib
+      - name: Publish Package
+        run: |
+          echo "//nexus.greytip.com/repository/greytip-npm/:_auth=${{secrets.NEXUS_TOKEN}}
+                always-auth=true" > .npmrc
+          npm publish
+        working-directory: dist/greytip-angular-json-schema
+
+
